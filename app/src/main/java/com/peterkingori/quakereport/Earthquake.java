@@ -3,12 +3,12 @@ package com.peterkingori.quakereport;
 public class Earthquake {
     private String mMagnitude;
     private String mLocation;
-    private String mDate;
+    private String mTimeInMilliseconds;
 
     public Earthquake(String magnitude, String location, String timeInMilliseconds) {
         mMagnitude = magnitude;
         mLocation = location;
-        mDate = timeInMilliseconds;
+        mTimeInMilliseconds = timeInMilliseconds;
     }
 
     public String getMagnitude() {
@@ -19,8 +19,8 @@ public class Earthquake {
         return mLocation;
     }
 
-    public String getDate() {
-        return mDate;
+    public String getTimeInMilliseconds() {
+        return mTimeInMilliseconds;
     }
 
 }
