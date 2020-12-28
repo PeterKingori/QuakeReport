@@ -3,9 +3,9 @@ package com.peterkingori.quakereport;
 public class Earthquake {
     private String mMagnitude;
     private String mLocation;
-    private String mTimeInMilliseconds;
+    private long mTimeInMilliseconds;
 
-    public Earthquake(String magnitude, String location, String timeInMilliseconds) {
+    public Earthquake(String magnitude, String location, long timeInMilliseconds) {
         mMagnitude = magnitude;
         mLocation = location;
         mTimeInMilliseconds = timeInMilliseconds;
@@ -19,7 +19,7 @@ public class Earthquake {
         return mLocation;
     }
 
-    public String getTimeInMilliseconds() {
+    public long getTimeInMilliseconds() {
         return mTimeInMilliseconds;
     }
 
