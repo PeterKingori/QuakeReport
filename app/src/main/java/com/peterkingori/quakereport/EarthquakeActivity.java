@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,18 +30,23 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
     /** Adapter for the list of earthquakes */
     private EarthquakeAdapter mAdapter;
 
+    private TextView mEmptyStateTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_earthquake);
 
-        // Find a reference to the {@link ListView} in the layout
+        // Find a reference to the ListView in the layout
         ListView earthquakeListView = findViewById(R.id.list);
+
+        mEmptyStateTextView = findViewById(R.id.empty_view);
+        earthquakeListView.setEmptyView(mEmptyStateTextView);
 
         // Create a new adapter that takes an empty list of earthquakes as input
         mAdapter = new EarthquakeAdapter(this, new ArrayList<Earthquake>());
 
-        // Set the adapter on the {@link ListView} so the list can be populated in the user interface
+        // Set the adapter on the ListView so the list can be populated in the user interface
         earthquakeListView.setAdapter(mAdapter);
 
         earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -66,6 +73,12 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
 
     @Override
     public void onLoadFinished(@NonNull Loader<List<Earthquake>> loader, List<Earthquake> earthquakes) {
+        View loadingIndicator = findViewById(R.id.progressBar);
+        loadingIndicator.setVisibility(View.GONE);
+
+        // Set empty state text to display "No earthquakes found."
+        mEmptyStateTextView.setText(R.string.no_earthquakes);
+
         // Clear the adapter of previous earthquake data
         mAdapter.clear();
 
