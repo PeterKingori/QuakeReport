@@ -6,7 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -59,9 +62,26 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
             }
         });
 
-        // Get a reference to the LoaderManager, in order to interact with loaders
-        LoaderManager loaderManager = LoaderManager.getInstance(this);
-        loaderManager.initLoader(EARTHQUAKE_LOADER_ID, null, this);
+        // Determine if you have an internet connection
+        ConnectivityManager cm =
+                (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        boolean isConnected = networkInfo != null &&
+                networkInfo.isConnected();
+
+        if (isConnected) {
+            // Get a reference to the LoaderManager, in order to interact with loaders
+            LoaderManager loaderManager = LoaderManager.getInstance(this);
+            loaderManager.initLoader(EARTHQUAKE_LOADER_ID, null, this);
+        }
+        else {
+            // Otherwise, display error
+            View loadingIndicator = findViewById(R.id.progressBar);
+            loadingIndicator.setVisibility(View.GONE);
+            mEmptyStateTextView.setText(R.string.no_internet_connection);
+        }
+
     }
 
     @NonNull
